@@ -1,9 +1,0 @@
-{
-	"liveServer.settings.https": {
-		"enable": true,
-		"cert": "/Users/stefanhuettenmoser/Meine Daten/aktuelle Projekte/dolce-gusto-qr-scanner/frontend/certs/server.crt",
-		"key": "/Users/stefanhuettenmoser/Meine Daten/aktuelle Projekte/dolce-gusto-qr-scanner/frontend/certs/server.key",
-		"passphrase": "12345678"
-	},
-	"liveServer.settings.root": "./frontend"
-}

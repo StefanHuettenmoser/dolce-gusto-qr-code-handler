@@ -5,10 +5,12 @@ const privateKey = fs.readFileSync("certs/server.key", "utf8");
 const certificate = fs.readFileSync("certs/server.crt", "utf8");
 const enterCodesToWebsite = require("./dolce-gusto-driver/index.js");
 
+require("dotenv").config({ path: path.join(__dirname, "../.env") });
+
 const credentials = {
 	key: privateKey,
 	cert: certificate,
-	passphrase: "12345678",
+	passphrase: process.env.PASSPHRASE,
 };
 
 const express = require("express");

@@ -1,0 +1,20 @@
+{
+	"name": "dolce-gusto-scanner-backend",
+	"version": "1.0.0",
+	"description": "",
+	"main": "index.js",
+	"scripts": {
+		"dev": "nodemon index.js",
+		"start": "node index.js"
+	},
+	"author": "",
+	"dependencies": {
+		"dotenv": "^16.0.1",
+		"express": "^4.18.1",
+		"selenium-webdriver": "^4.4.0",
+		"serve-static": "^1.15.0"
+	},
+	"devDependencies": {
+		"nodemon": "^2.0.19"
+	}
+}

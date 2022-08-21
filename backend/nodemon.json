@@ -1,0 +1,8 @@
+{
+	"watch": [".", "../frontend"],
+	"ext": "js, css, html, json",
+	"ignore": [".git", "node_modules/**/node_modules"],
+	"env": {
+		"NODE_ENV": "development"
+	}
+}

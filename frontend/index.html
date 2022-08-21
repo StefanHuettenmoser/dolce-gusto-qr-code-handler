@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+		<title>Dolce Gusto QR Code Processor</title>
+		<script type="text/javascript" src="lib/instascan.min.js"></script>
+		<script type="text/javascript" src="script.js" defer></script>
+		<link rel="stylesheet" href="style.css" />
+	</head>
+
+	<body>
+		<audio id="audioError" src="audio/t-rex-roar.mp3"></audio>
+		<audio id="audioSuccess" src="audio/Glass.mp3"></audio>
+		<video id="preview"></video>
+		<div id="overlay">
+			<button id="run">Eingeben</button>
+			<div id="codes"></div>
+			<div id="counter">
+				Scanned: <span id="scannedCounter">0</span><br />
+				Points: <span id="pointsCounter">0</span>
+			</div>
+		</div>
+	</body>
+</html>

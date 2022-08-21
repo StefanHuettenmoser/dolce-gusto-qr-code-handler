@@ -31,7 +31,7 @@ const handleScan = async (content) => {
 	const code = content.replaceAll(" ", "");
 	if (code.length !== 12) {
 		console.warn("Error in Code: ", code);
-		audioError.play();
+		playAudio(audioError);
 		return;
 	}
 
@@ -45,11 +45,9 @@ const handleScan = async (content) => {
 	if (!res.ok) {
 		codeElement.classList.add("invalid");
 		codeElement.style.color = "red";
-		audioError.play();
+		playAudio(audioError);
 	} else {
-		audioSuccess.pause();
-		audioSuccess.currentTime = 0;
-		audioSuccess.play();
+		playAudio(audioSuccess);
 		scannedCounter.innerText = +scannedCounter.innerText + 1;
 	}
 	setTimeout(() => codeElement.classList.add("hide"), 30 * 1000);
@@ -88,6 +86,12 @@ const sendCode = (code) => {
 		},
 	});
 };
+const playAudio = (audioElement) => {
+	audioElement.pause();
+	audioElement.currentTime = 0;
+	audioElement.play();
+};
+
 main();
 
 // DEBUGIN: add fake codes

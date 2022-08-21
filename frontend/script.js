@@ -99,4 +99,3 @@ const fakeAdd = () => {
 	handleScan("aaaabbbbccc" + Math.floor(Math.random() * 10));
 	setTimeout(fakeAdd, 2000 + Math.random() * 5000);
 };
-fakeAdd();

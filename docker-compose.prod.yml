@@ -2,6 +2,14 @@ version: "3.9"
 
 services:
   frontend:
-    build:
-      context: frontend
+    restart: unless-stopped
+
+  backend:
+    restart: unless-stopped
+
+  nginx:
+    restart: unless-stopped
+  db:
+    restart: unless-stopped
+  phpmyadmin:
     restart: unless-stopped

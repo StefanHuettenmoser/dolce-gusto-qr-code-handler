@@ -1,31 +1,12 @@
 const codesElement = document.getElementById("codes");
 const audioSuccess = document.getElementById("audioSuccess");
 const audioError = document.getElementById("audioError");
-const scannedCounter = document.getElementById("scannedCounter");
+const codesCounter = document.getElementById("codesCounter");
 const pointsCounter = document.getElementById("pointsCounter");
-const runButton = document.getElementById("run");
-
-runButton.disabled = true;
 
 const scanner = new Instascan.Scanner({
 	video: document.getElementById("preview"),
 });
-
-runButton.addEventListener("click", async () => {
-	runButton.innerText = "Loading...";
-	scannedCounter.innerText = "0";
-	runButton.disabled = true;
-	const res = await fetch("/run", {
-		method: "GET",
-	});
-	const json = await res.json();
-	const points = json.points;
-	pointsCounter.innerText = +pointsCounter.innerText + points;
-	runButton.disabled = false;
-	runButton.innerText = "Eingeben";
-});
-
-scanner.addListener("scan", (content) => handleScan(content));
 
 const handleScan = async (content) => {
 	const code = content.replaceAll(" ", "");
@@ -48,14 +29,33 @@ const handleScan = async (content) => {
 		playAudio(audioError);
 	} else {
 		playAudio(audioSuccess);
-		scannedCounter.innerText = +scannedCounter.innerText + 1;
+		codesCounter.innerText = +codesCounter.innerText + 1;
 	}
 	setTimeout(() => codeElement.classList.add("hide"), 30 * 1000);
 
 	codesElement.prepend(codeElement);
 };
 
-const main = async () => {
+const preLoad = async () => {
+	try {
+		const pointsRes = await getPoints();
+		const codesRes = await getCodes();
+		if (!pointsRes.ok) throw new Error("Could not get points");
+		if (!codesRes.ok) throw new Error("Could not get codes");
+
+		const { points } = await pointsRes.json();
+		const { codes } = await codesRes.json();
+
+		codesCounter.innerText = codes;
+		pointsCounter.innerText = points;
+	} catch (err) {
+		console.error(err);
+		document.body.innerHTML = "ERROR";
+	}
+};
+
+const init = async () => {
+	document.getElementById("startModal").style.display = "none";
 	const cameras = await Instascan.Camera.getCameras();
 
 	if (cameras.length > 0) {
@@ -66,6 +66,8 @@ const main = async () => {
 	} else {
 		console.error("No cameras found.");
 	}
+
+	scanner.addListener("scan", (content) => handleScan(content));
 };
 
 const formatCode = (code, interval, filler = " ") => {
@@ -78,12 +80,22 @@ const formatCode = (code, interval, filler = " ") => {
 };
 
 const sendCode = (code) => {
-	return fetch("/send-qr", {
+	return fetch("/api/codes", {
 		method: "POST",
 		body: JSON.stringify({ qr: code }),
 		headers: {
 			"Content-Type": "application/json",
 		},
+	});
+};
+const getCodes = () => {
+	return fetch("/api/codes", {
+		method: "GET",
+	});
+};
+const getPoints = () => {
+	return fetch("/api/points", {
+		method: "GET",
 	});
 };
 const playAudio = (audioElement) => {
@@ -92,10 +104,10 @@ const playAudio = (audioElement) => {
 	audioElement.play();
 };
 
-main();
-
 // DEBUGIN: add fake codes
 const fakeAdd = () => {
 	handleScan("aaaabbbbccc" + Math.floor(Math.random() * 10));
 	setTimeout(fakeAdd, 2000 + Math.random() * 5000);
 };
+
+preLoad();

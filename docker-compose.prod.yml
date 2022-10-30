@@ -1,0 +1,15 @@
+version: "3.9"
+
+services:
+  frontend:
+    restart: unless-stopped
+
+  backend:
+    restart: unless-stopped
+
+  nginx:
+    restart: unless-stopped
+  db:
+    restart: unless-stopped
+  phpmyadmin:
+    restart: unless-stopped

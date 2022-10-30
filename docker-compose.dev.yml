@@ -1,0 +1,20 @@
+version: "3.9"
+
+services:
+  frontend:
+    volumes:
+      - ./frontend/src:/data/www:ro
+
+  backend:
+    build:
+      dockerfile: Dockerfile.dev
+    ports:
+      - 8080:8080
+    volumes:
+      - ./backend/src:/app/src
+
+  nginx:
+    build:
+      dockerfile: Dockerfile.dev
+    ports:
+      - ${DEV_SSL_PORT}:443

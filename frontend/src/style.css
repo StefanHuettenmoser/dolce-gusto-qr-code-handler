@@ -57,17 +57,44 @@ body {
 	opacity: 0;
 }
 
-#run {
+#startModal {
+	z-index: 1000;
 	position: absolute;
+	left: 0;
 	right: 0;
+	top: 0;
 	bottom: 0;
-	background-color: white;
-	color: black;
-	padding: 0.3em 1em;
-	margin: 1em;
-	border: none;
-	border-radius: 0.4em;
+	background-color: black;
+	display: flex;
+	align-items: center;
+	justify-content: center;
 }
-#run:disabled {
+
+#targetArea {
+	position: absolute;
+	margin: auto;
+	width: min(90vh, 15em);
+	aspect-ratio: 1;
+	left: 50%;
+	top: 50%;
+	translate: -50% -50%;
+	border: 0.4em dashed white;
 	opacity: 0.3;
+	border-radius: 1em;
+}
+
+#startModal > button {
+	font-size: 3em;
+	background-color: coral;
+	color: white;
+	border: 0px;
+	padding: 0.5em 2em;
+	border-radius: 0.3em;
+	cursor: pointer;
+}
+#startModal > button:hover {
+	background-color: brown;
+}
+#startModal > button:active {
+	background-color: yellow;
 }

@@ -1,0 +1,11 @@
+version: "3.9"
+
+services:
+  frontend:
+    build:
+      context: frontend
+      dockerfile: Dockerfile.dev
+    ports:
+      - 443:443
+    volumes:
+      - ./frontend/src:/data/www:ro

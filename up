@@ -1,0 +1,23 @@
+#/bin/bash
+
+DOCKER_CONTAINER_NAME="dolce-qr"
+
+dev() {
+    docker-compose \
+    --env-file ./.env.dev \
+    -f docker-compose.yml \
+    -f docker-compose.dev.yml \
+    -p "$DOCKER_CONTAINER_NAME"_dev \
+    up -d --build --remove-orphans
+}
+
+prod() {
+    docker-compose \
+    --env-file ./.env \
+    -f docker-compose.yml \
+    -f docker-compose.prod.yml \
+    -p "$DOCKER_CONTAINER_NAME" \
+    up -d --build --remove-orphans
+}
+
+"$@"

@@ -1,17 +1,8 @@
 const fs = require("fs");
-const https = require("https");
-const serveStatic = require("serve-static");
-const privateKey = fs.readFileSync("certs/server.key", "utf8");
-const certificate = fs.readFileSync("certs/server.crt", "utf8");
+
 const enterCodesToWebsite = require("./dolce-gusto-driver/index.js");
 
 require("dotenv").config({ path: path.join(__dirname, "../.env") });
-
-const credentials = {
-	key: privateKey,
-	cert: certificate,
-	passphrase: process.env.PASSPHRASE,
-};
 
 const express = require("express");
 const app = express();
@@ -56,9 +47,6 @@ app.get("/run", async (req, res) => {
 	res.status(201).json({ points });
 });
 
-app.use(serveStatic("../frontend", { index: ["index.html", "index.htm"] }));
-
-const httpsServer = https.createServer(credentials, app);
-
-httpsServer.listen(8443);
-console.log("HTTPS SERVER LISTENING ON PORT 8443");
+app.listen(8080, () => {
+	console.log("HTTP SERVER LISTENING ON PORT 8080");
+});

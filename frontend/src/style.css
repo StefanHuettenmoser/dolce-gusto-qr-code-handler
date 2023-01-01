@@ -73,7 +73,7 @@ body {
 #targetArea {
 	position: absolute;
 	margin: auto;
-	width: min(90vh, 15em);
+	width: min(min(90vh, 90vw), 15em);
 	aspect-ratio: 1;
 	left: 50%;
 	top: 50%;

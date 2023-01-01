@@ -98,3 +98,19 @@ body {
 #startModal > button:active {
 	background-color: yellow;
 }
+
+#manualInputContainer {
+	position: absolute;
+	left: 0;
+	bottom: 0;
+	display: flex;
+	background-color: rgba(0, 0, 0, 0.5);
+	color: white;
+	flex-direction: column;
+	font-size: 1.4em;
+	max-width: 18ch;
+}
+#manualInputContainer > input {
+	font-size: inherit;
+	width: 100%;
+}

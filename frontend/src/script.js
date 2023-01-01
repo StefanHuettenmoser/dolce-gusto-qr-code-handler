@@ -3,17 +3,28 @@ const audioSuccess = document.getElementById("audioSuccess");
 const audioError = document.getElementById("audioError");
 const codesCounter = document.getElementById("codesCounter");
 const pointsCounter = document.getElementById("pointsCounter");
+const manualInput = document.getElementById("manualInput");
 
 const scanner = new Instascan.Scanner({
 	video: document.getElementById("preview"),
 });
 
-const handleScan = async (content) => {
-	const code = content.replaceAll(" ", "");
+manualInput.addEventListener("input", async () => {
+	if (!manualInput || !manualInput.value) return;
+	const code = manualInput.value.replaceAll(" ", "");
+	if (code.length !== 12) return;
+	handleCodeInput(code);
+	if (await manualInput.value) {
+		manualInput.value = "";
+	}
+});
+
+const handleCodeInput = async (input) => {
+	const code = input.replaceAll(" ", "");
 	if (code.length !== 12) {
 		console.warn("Error in Code: ", code);
 		playAudio(audioError);
-		return;
+		return false;
 	}
 
 	const formattedCode = formatCode(code, 4);
@@ -34,6 +45,7 @@ const handleScan = async (content) => {
 	setTimeout(() => codeElement.classList.add("hide"), 30 * 1000);
 
 	codesElement.prepend(codeElement);
+	return res.ok;
 };
 
 const preLoad = async () => {
@@ -67,7 +79,7 @@ const init = async () => {
 		console.error("No cameras found.");
 	}
 
-	scanner.addListener("scan", (content) => handleScan(content));
+	scanner.addListener("scan", (content) => handleCodeInput(content));
 };
 
 const formatCode = (code, interval, filler = " ") => {
@@ -102,12 +114,6 @@ const playAudio = (audioElement) => {
 	audioElement.pause();
 	audioElement.currentTime = 0;
 	audioElement.play();
-};
-
-// DEBUGIN: add fake codes
-const fakeAdd = () => {
-	handleScan("aaaabbbbccc" + Math.floor(Math.random() * 10));
-	setTimeout(fakeAdd, 2000 + Math.random() * 5000);
 };
 
 preLoad();

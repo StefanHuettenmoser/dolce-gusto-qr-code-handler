@@ -7,6 +7,10 @@ module.exports = {
 		return rows[0];
 	},
 	update: (points) => {
-		return q(`UPDATE dolce_point SET points = ?, updated = NOW();`, [points]);
+		return q(
+			`INSERT INTO dolce_point (points, updated) 
+			 VALUES (?, NOW())`,
+			[points]
+		);
 	},
 };

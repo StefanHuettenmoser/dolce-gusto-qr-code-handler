@@ -24,6 +24,7 @@ const XPATH = {
 		input: `//input[@id="code"]`,
 	},
 	language: "//li[contains(@class,'view-ndg_ch_de')]",
+	cookieBanner: `//*[contains(@class,"evidon-banner")]/button[1]`,
 };
 
 const run = async (codes) => {
@@ -93,6 +94,15 @@ const login = async (driver) => {
 	await driver
 		.findElement(By.xpath(XPATH.login.username))
 		.sendKeys(process.env.DG_USERNAME);
+
+	console.info("closing cookie banner");
+	try {
+		await driver.findElement(By.xpath(XPATH.cookieBanner)).click();
+		console.info("cookie banner closed");
+	} catch {
+		console.info("no cookie banner found");
+	}
+
 	await driver
 		.findElement(By.xpath(XPATH.login.password))
 		.sendKeys(process.env.DG_PASSWORD);

@@ -9,6 +9,8 @@ const scanner = new Instascan.Scanner({
 	video: document.getElementById("preview"),
 });
 
+const sparkTank = new SparkTank();
+
 manualInput.addEventListener("input", async () => {
 	if (!manualInput || !manualInput.value) return;
 	const code = manualInput.value.replaceAll(" ", "");
@@ -39,13 +41,27 @@ const handleCodeInput = async (input) => {
 		codeElement.style.color = "red";
 		playAudio(audioError);
 	} else {
-		playAudio(audioSuccess);
-		codesCounter.innerText = +codesCounter.innerText + 1;
+		handleSuccess();
 	}
 	setTimeout(() => codeElement.classList.add("hide"), 30 * 1000);
 
 	codesElement.prepend(codeElement);
 	return res.ok;
+};
+
+const handleSuccess = () => {
+	setTimeout(() => playAudio(audioSuccess), 20);
+	codesCounter.innerText = +codesCounter.innerText + 1;
+	const pos = {
+		x:
+			(document.getElementById("counter").offsetLeft +
+				codesCounter.offsetLeft) /
+			document.getElementById("overlay").clientWidth,
+		y:
+			(document.getElementById("counter").offsetTop + codesCounter.offsetTop) /
+			document.getElementById("overlay").clientHeight,
+	};
+	sparkTank.burst({ pos });
 };
 
 const preLoad = async () => {

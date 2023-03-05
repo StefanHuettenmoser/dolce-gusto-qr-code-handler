@@ -6,6 +6,7 @@
 		<meta name="viewport" content="width=device-width, initial-scale=1.0" />
 		<title>Dolce Gusto QR Code Processor</title>
 		<script type="text/javascript" src="lib/instascan.min.js"></script>
+		<script type="text/javascript" src="sparks.js" defer></script>
 		<script type="text/javascript" src="script.js" defer></script>
 		<link rel="stylesheet" href="style.css" />
 	</head>
@@ -15,6 +16,9 @@
 		<audio id="audioSuccess" src="audio/Glass.mp3"></audio>
 		<video id="preview"></video>
 		<div id="overlay">
+			<div id="sparks">
+				<div class="sparks-container"></div>
+			</div>
 			<div id="targetArea"></div>
 			<div id="codes"></div>
 			<div id="counter">

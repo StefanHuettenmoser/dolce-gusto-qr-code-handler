@@ -121,9 +121,9 @@ const navigateToBonusPage = async (driver) => {
 
 const enterCodes = async (driver, codes) => {
 	console.info("Entering Codes...");
-	let points = await getPoints(driver);
-	const initPoints = points;
-	console.info("You are starting with " + points + " points");
+	let totalPoints = await getTotalPoints(driver);
+	const initPoints = totalPoints;
+	console.info("You are starting with a total of " + totalPoints + " points");
 
 	// ENTER CODES
 	for (let i in codes) {
@@ -138,21 +138,23 @@ const enterCodes = async (driver, codes) => {
 		// hit save
 		driver.sleep(M * 300 + Math.random() * 200 * M);
 		// Check if code was valid
-		let newPoints = await getPoints(driver);
-		if (newPoints === points) {
+		const newTotalPoints = await getTotalPoints(driver);
+		const receivedPoints = newTotalPoints - totalPoints;
+		if (receivedPoints < 1) {
 			console.warn("Code was not accepted");
 			await setError(code);
+		} else {
+			await setEntered(code, receivedPoints);
+			totalPoints = newTotalPoints;
+			console.info("You have " + totalPoints + " points");
+			update(totalPoints);
 		}
-		await setEntered(code);
-		points = newPoints;
-		console.info("You have " + points + " points");
-		update(points);
 	}
 	console.info("Finished");
-	return initPoints - points;
+	return initPoints - totalPoints;
 };
 
-const getPoints = async (driver) => {
+const getTotalPoints = async (driver) => {
 	await driver.wait(
 		until.elementLocated(By.xpath(XPATH.points.counter)),
 		TIMEOUT

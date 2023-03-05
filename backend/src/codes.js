@@ -13,9 +13,12 @@ module.exports = {
 		return Boolean(code.match(/^[a-z0-9]{12}$/i)?.[0]);
 	},
 	setError: (code) => {
-		return q(`UPDATE code SET error = 1 WHERE code=?; `, [code]);
+		return q("UPDATE code SET error = 1, entered = 1 WHERE code=?; ", [code]);
 	},
-	setEntered: (code) => {
-		return q(`UPDATE code SET entered = 1 WHERE code=?; `, [code]);
+	setEntered: (code, points) => {
+		return q("UPDATE code SET entered = 1, points = ? WHERE code=?; ", [
+			points,
+			code,
+		]);
 	},
 };

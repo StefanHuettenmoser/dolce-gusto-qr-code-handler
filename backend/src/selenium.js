@@ -85,17 +85,8 @@ const selectLanguage = async (driver) => {
 const login = async (driver) => {
 	// OPEN LOGIN TAB
 	console.info("Opening Login Tab...");
-	try {
-		let i = 0;
-		while (true) {
-			console.info("spam click", i);
-			await driver.findElement(By.xpath(XPATH.login.myAccount)).click();
-			await driver.sleep(Math.random() * 300);
-			i++;
-		}
-	} catch {
-		console.info("finish spamming");
-	}
+	// SPAM CLICK LOGIN BUTTON, IF IT CAN NO LONGER BE CLICKED -> SUCCESS
+	await spamClick(driver, XPATH.login.myAccount);
 	await driver.sleep(6000 * M);
 	// ENTER CREDENTIALS
 	console.info("Enter Credentials");
@@ -163,6 +154,20 @@ const getTotalPoints = async (driver) => {
 		.findElement(By.xpath(XPATH.points.counter))
 		.getAttribute("innerHTML");
 	return +points;
+};
+
+const spamClick = async (driver, xpath, action = (x) => x.click()) => {
+	try {
+		let i = 0;
+		while (true) {
+			console.info("spam click", i);
+			await action(driver.findElement(By.xpath(xpath)));
+			await driver.sleep(Math.random() * 300);
+			i++;
+		}
+	} catch {
+		console.info("success, finish spamming");
+	}
 };
 
 const saveScreenshot = async (driver) => {

@@ -20,4 +20,21 @@ prod() {
     up -d --build --remove-orphans
 }
 
+abort_prod() {
+    docker-compose \
+    --env-file ./.env \
+    -f docker-compose.yml \
+    -f docker-compose.prod.yml \
+    -p "$DOCKER_CONTAINER_NAME" \
+    down
+}
+abort_dev() {
+    docker-compose \
+    --env-file ./.env \
+    -f docker-compose.yml \
+    -f docker-compose.dev.yml \
+    -p "$DOCKER_CONTAINER_NAME"_dev \
+    down
+}
+
 "$@"

@@ -8,8 +8,6 @@ const {
 } = require("./codes.js");
 const enterCodesToWebsite = require("./selenium.js");
 
-let codesAreEntered = false;
-
 const app = express();
 app.use(express.json()); // to support JSON-encoded bodies
 app.set("trust proxy", true);
@@ -66,9 +64,8 @@ app.listen(8080, () => {
 	console.log("HTTP SERVER LISTENING ON PORT 8080");
 });
 
-const cron = require("node-cron");
-
-cron.schedule(process.env.UPDATE_CRON || "0 * * * *", async () => {
+let codesAreEntered = false;
+const schedule = async () => {
 	console.info("CronJob: Entering Codes on Dolce Gusto Site");
 	if (codesAreEntered) {
 		return console.warn(
@@ -86,4 +83,13 @@ cron.schedule(process.env.UPDATE_CRON || "0 * * * *", async () => {
 	} finally {
 		codesAreEntered = false;
 	}
-});
+};
+
+const cron = require("node-cron");
+cron.schedule(process.env.UPDATE_CRON || "0 * * * *", schedule);
+if (
+	process.env.NODE_ENV === "development" &&
+	process.env.SELENIUM_DEV === "true"
+) {
+	schedule();
+}

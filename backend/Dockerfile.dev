@@ -25,6 +25,8 @@ RUN npm install
 
 COPY ./src ./src
 
+ENV NODE_ENV=development
+
 ENTRYPOINT [ "npm", "run", "dev" ]
 
 EXPOSE 8080
